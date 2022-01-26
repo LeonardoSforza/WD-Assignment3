@@ -49,6 +49,26 @@ app.use(bodyParser.json());
 // This example route responds to http://localhost:3000/hello with an example JSON object.
 // Please test if this works on your own device before you make any changes.
 
+app.post("/new-entry/phone-list", function (req, res) {
+  db.run(`INSERT INTO phones (brand, model, os, image, screensize)
+  VALUES (?,?,?,?,?)`),
+    [
+      req.body["brand"],
+      req.body["model"],
+      req.body["os"],
+      req.body["image"],
+      req.body["screensize"],
+    ],
+    function (err, rows) {
+      if (err) {
+        console.log("Error when submitting");
+      } else {
+        console.log("Successful post");
+      }
+    };
+  app.use(express.json());
+});
+
 app.get("/hello", function (req, res) {
   response_body = { Hello: "World" };
 
