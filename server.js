@@ -69,7 +69,16 @@ app.get("/db-example", function (req, res) {
     function (err, rows) {
       // TODO: add code that checks for errors so you know what went wrong if anything went wrong
       // TODO: set the appropriate HTTP response headers and HTTP response codes here.
-
+      console.log(err);
+      //   if (err) {
+      //     res.status(400).send(err);
+      //   } else if (rows.n === 0) {
+      //     res.sendStatus(404);
+      //   } else {
+      //     res.sendStatus(200);
+      //   }
+      console.log(err);
+      console.log(rows);
       // # Return db response as JSON
       return res.json(rows);
     }
@@ -121,6 +130,13 @@ function my_database(filename) {
             "Android",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Fairphone_3_modules_on_display.jpg/320px-Fairphone_3_modules_on_display.jpg",
             "5.65",
+          ],
+          [
+            "Apple",
+            "ipad pro",
+            "ios",
+            "https://static.iphoned.nl/orca/products/9569/apple-ipad-pro-2021.jpg",
+            "12.9",
           ]
         );
         console.log("Inserted dummy phone entry into empty database");
