@@ -1,81 +1,34 @@
-// ###############################################################################
-// Web Technology at VU University Amsterdam
-// Assignment 3
-//
-// The assignment description is available on Canvas.
-// Please read it carefully before you proceed.
-//
-// This is a template for you to quickly get started with Assignment 3.
-// Read through the code and try to understand it.
-//
-// Have you read the zyBook chapter on Node.js?
-// Have you looked at the documentation of sqlite?
-// https://www.sqlitetutorial.net/sqlite-nodejs/
-//
-// Once you are familiar with Node.js and the assignment, start implementing
-// an API according to your design by adding routes.
-
-// ###############################################################################
-//
-// Database setup:
-// First: Our code will open a sqlite database file for you, and create one if it not exists already.
-// We are going to use the variable "db' to communicate to the database:
-// If you want to start with a clean sheet, delete the file 'phones.db'.
-// It will be automatically re-created and filled with one example item.
-
 const sqlite = require("sqlite3").verbose();
 let db = my_database("./phones.db");
-
-// ###############################################################################
-// The database should be OK by now. Let's setup the Web server so we can start
-// defining routes.
-//
-// First, create an express application `app`:
 
 var express = require("express");
 var app = express();
 
-// We need some middleware to parse JSON data in the body of our HTTP requests:
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-// ###############################################################################
-// Routes
-//
-// TODO: Add your routes here and remove the example routes once you know how
-//       everything works.
-// ###############################################################################
-
-// This example route responds to http://localhost:3000/hello with an example JSON object.
-// Please test if this works on your own device before you make any changes.
-
-app.post("/new-entry/phone-list", function (req, res) {
-  db.run(`INSERT INTO phones (brand, model, os, image, screensize)
-  VALUES (?,?,?,?,?)`),
-    [
-      req.body["brand"],
-      req.body["model"],
-      req.body["os"],
-      req.body["image"],
-      req.body["screensize"],
-    ],
-    function (err, rows) {
-      if (err) {
-        console.log("Error when submitting");
-      } else {
-        console.log("Successful post");
-      }
-    };
-  app.use(express.json());
+app.get("/phone-list", function (req, res) {
+  db.all("SELECT * FROM phones", (error, row) => {
+    if (error) {
+      return error;
+    }
+    return res.json(row);
+  });
 });
 
-app.get("/hello", function (req, res) {
-  response_body = { Hello: "World" };
+app.get("/new-entry/phone-list", (req, res) => {
+  db.run(
+    "INSERT INTO phones (brand, model, os, image, screensize) VALUES (?, ?, ?, ?, ?)",
+    ["Google", "Pixel 6", "Android", "www.pixel6.com", "12"]
+  );
+  let ans = { job: "done" };
+  return res.json(ans);
+});
 
-  // This example returns valid JSON in the response, but does not yet set the
-  // associated HTTP response header.  This you should do yourself in your
-  // own routes!
-  res.json(response_body);
+app.get("/delete/2/phone-list", (req, res) => {
+  db.run("DELETE FROM phones WHERE id = 2");
+  let ans = { job: "deleted" };
+  return res.json(ans);
 });
 
 // This route responds to http://localhost:3000/db-example by selecting some data from the
@@ -83,19 +36,17 @@ app.get("/hello", function (req, res) {
 // Please test if this works on your own device before you make any changes.
 app.get("/db-example", function (req, res) {
   // Example SQL statement to select the name of all products from a specific brand
-  db.all(`SELECT * FROM phones WHERE`, (err, rows) => {
-    // TODO: add code that checks for errors so you know what went wrong if anything went wrong
-    // TODO: set the appropriate HTTP response headers and HTTP response codes here.
-    //   if (err) {
-    //     res.status(400).send(err);
-    //   } else if (rows.n === 0) {
-    //     res.sendStatus(404);
-    //   } else {
-    //     res.sendStatus(200);
-    //   }
-    // # Return db response as JSON
-    return res.json(rows);
-  });
+  db.all(
+    `SELECT * FROM phones WHERE brand=?`,
+    ["Fairphone"],
+    function (err, rows) {
+      // TODO: add code that checks for errors so you know what went wrong if anything went wrong
+      // TODO: set the appropriate HTTP response headers and HTTP response codes here.
+
+      // # Return db response as JSON
+      return res.json(rows);
+    }
+  );
 });
 
 app.post("/post-example", function (req, res) {
@@ -143,13 +94,6 @@ function my_database(filename) {
             "Android",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Fairphone_3_modules_on_display.jpg/320px-Fairphone_3_modules_on_display.jpg",
             "5.65",
-          ],
-          [
-            "Apple",
-            "ipad pro",
-            "ios",
-            "https://static.iphoned.nl/orca/products/9569/apple-ipad-pro-2021.jpg",
-            "12.9",
           ]
         );
         console.log("Inserted dummy phone entry into empty database");
