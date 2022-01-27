@@ -37,43 +37,18 @@ app.get("/delete/2/phone-list", (req, res) => {
   return res.json(ans);
 });
 
-// This route responds to http://localhost:3000/db-example by selecting some data from the
-// database and return it as JSON object.
-// Please test if this works on your own device before you make any changes.
-app.get("/db-example", function (req, res) {
-  // Example SQL statement to select the name of all products from a specific brand
-  db.all(
-    `SELECT * FROM phones WHERE brand=?`,
-    ["Fairphone"],
-    function (err, rows) {
-      // TODO: add code that checks for errors so you know what went wrong if anything went wrong
-      // TODO: set the appropriate HTTP response headers and HTTP response codes here.
-
-      // # Return db response as JSON
-      return res.json(rows);
-    }
-  );
-});
-
-// ###############################################################################
-// This should start the server, after the routes have been defined, at port 3000:
-
 app.listen(3000);
 console.log(
   "Your Web server should be up and running, waiting for requests to come in. Try http://localhost:3000/hello"
 );
 
-// ###############################################################################
-// Some helper functions called above
 function my_database(filename) {
-  // Conncect to db by opening filename, create filename if it does not exist:
   var db = new sqlite.Database(filename, (err) => {
     if (err) {
       console.error(err.message);
     }
     console.log("Connected to the phones database.");
   });
-  // Create our phones table if it does not exist already:
   db.serialize(() => {
     db.run(`
         	CREATE TABLE IF NOT EXISTS phones
