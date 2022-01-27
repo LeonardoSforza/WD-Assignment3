@@ -83,26 +83,19 @@ app.get("/hello", function (req, res) {
 // Please test if this works on your own device before you make any changes.
 app.get("/db-example", function (req, res) {
   // Example SQL statement to select the name of all products from a specific brand
-  db.all(
-    `SELECT * FROM phones WHERE brand=?`,
-    ["Fairphone"],
-    function (err, rows) {
-      // TODO: add code that checks for errors so you know what went wrong if anything went wrong
-      // TODO: set the appropriate HTTP response headers and HTTP response codes here.
-      console.log(err);
-      //   if (err) {
-      //     res.status(400).send(err);
-      //   } else if (rows.n === 0) {
-      //     res.sendStatus(404);
-      //   } else {
-      //     res.sendStatus(200);
-      //   }
-      console.log(err);
-      console.log(rows);
-      // # Return db response as JSON
-      return res.json(rows);
-    }
-  );
+  db.all(`SELECT * FROM phones WHERE`, (err, rows) => {
+    // TODO: add code that checks for errors so you know what went wrong if anything went wrong
+    // TODO: set the appropriate HTTP response headers and HTTP response codes here.
+    //   if (err) {
+    //     res.status(400).send(err);
+    //   } else if (rows.n === 0) {
+    //     res.sendStatus(404);
+    //   } else {
+    //     res.sendStatus(200);
+    //   }
+    // # Return db response as JSON
+    return res.json(rows);
+  });
 });
 
 app.post("/post-example", function (req, res) {
