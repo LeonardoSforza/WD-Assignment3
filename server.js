@@ -1,8 +1,8 @@
 const sqlite = require("sqlite3").verbose();
 let db = my_database("./phones.db");
 
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -16,12 +16,18 @@ app.get("/phone-list", function (req, res) {
   });
 });
 
-app.get("/new-entry/phone-list", (req, res) => {
+app.post("/new-entry/phone-list", function (req, res) {
   db.run(
-    "INSERT INTO phones (brand, model, os, image, screensize) VALUES (?, ?, ?, ?, ?)",
-    ["Google", "Pixel 6", "Android", "www.pixel6.com", "12"]
+    "INSERT INTO phones (brand, model, os, image, screensize) VALUES ($brand, $model, $os, $image, $screensize)",
+    {
+      $brand: req.body.brand,
+      $model: req.body.model,
+      $os: req.body.os,
+      $image: req.body.image,
+      $screensize: req.body.screensize,
+    }
   );
-  let ans = { job: "done" };
+  let ans = { job: "Added" };
   return res.json(ans);
 });
 
@@ -47,12 +53,6 @@ app.get("/db-example", function (req, res) {
       return res.json(rows);
     }
   );
-});
-
-app.post("/post-example", function (req, res) {
-  // This is just to check if there is any data posted in the body of the HTTP request:
-  console.log(req.body);
-  return res.json(req.body);
 });
 
 // ###############################################################################
