@@ -19,37 +19,38 @@ const return404Error = (message, res) => {
 };
 
 const deleteID = (id, req, res) => {
-  console.log(`Brand: ${req.params.brand}
-              Model: ${req.params.model}
-              OS: ${req.params.os}
-              IMG: ${req.params.image}
-              Screen: ${req.params.screensize}`);
+  console.log(`Model: ${req.body.model}`);
   db.run("DELETE FROM phones WHERE id = $id", { $id: id });
   ans = [];
   ans.push({
     status: "200",
     action: "deleted",
     contentID: req.params.id,
-    // brand: req.params.brand,
-    // model: req.params.model,
-    // os: req.params.os,
-    // image: req.params.image,
-    // screensize: req.params.screensize,
+    brand: req.body.brand,
+    model: req.body.model,
+    os: req.body.os,
+    image: req.body.image,
+    screensize: req.body.screensize,
   });
   return res.json(ans);
 };
 
 const updateID = (id, model, brand, os, image, screen, res) => {
-  console.log(`Brand: ${brand}
-              Model: ${model}
-              OS: ${os}
-              IMG: ${image}
-              Screen: ${screen}
-              ID: ${id}`);
-  db.run(
-    "UPDATE phones SET brand = ? AND model = ? AND os = ? AND image = ? AND screensize = ? WHERE id=?",
-    [brand, model, os, image, screen, id]
-  );
+  if (model) {
+    db.run("UPDATE phones SET model = ? WHERE id = ?", [model, id]);
+  }
+  if (brand) {
+    db.run("UPDATE phones SET brand = ? WHERE id = ?", [brand, id]);
+  }
+  if (os) {
+    db.run("UPDATE phones SET os = ? WHERE id = ?", [os, id]);
+  }
+  if (image) {
+    db.run("UPDATE phones SET image = ? WHERE id = ?", [image, id]);
+  }
+  if (screen) {
+    db.run("UPDATE phones SET screensize = ? WHERE id = ?", [screen, id]);
+  }
   ans = [];
   ans.push({
     status: "200",
@@ -74,6 +75,7 @@ app.get("/phone-list", function (req, res) {
 });
 
 app.post("/new-entry/phone-list", function (req, res) {
+  // console.log(req.body);
   if (
     req.body.brand &&
     req.body.model &&
@@ -136,29 +138,29 @@ app.delete("/delete/:id/phone-list", (req, res) => {
 });
 
 app.post("/change/:id/phone-list", (req, res) => {
-  console.log(req.params);
-  // db.get(
-  //   "SELECT * FROM phones WHERE id = $id",
-  //   {
-  //     $id: req.params.id,
-  //   },
-  //   (err, row) => {
-  //     if (err) {
-  //       return res.json(err.message);
-  //     }
-  //     return row
-  //       ? updateID(
-  //           req.params.id,
-  //           req.params.model,
-  //           req.params.brand,
-  //           req.params.os,
-  //           req.params.image,
-  //           req.params.screensize,
-  //           res
-  //         )
-  //       : return404Error(`Phone with ID ${req.params.id} not found`, res);
-  //   }
-  // );
+  // console.log(req.body);
+  db.get(
+    "SELECT * FROM phones WHERE id = $id",
+    {
+      $id: req.params.id,
+    },
+    (err, row) => {
+      if (err) {
+        return res.json(err.message);
+      }
+      return row
+        ? updateID(
+            req.params.id,
+            req.body.model,
+            req.body.brand,
+            req.body.os,
+            req.body.image,
+            req.body.screensize,
+            res
+          )
+        : return404Error(`Phone with ID ${req.params.id} not found`, res);
+    }
+  );
 });
 
 app.listen(3000);
