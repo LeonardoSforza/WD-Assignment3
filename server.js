@@ -18,6 +18,10 @@ const return404Error = (message, res) => {
   return res.json(ans);
 };
 
+const returnSpecificRow = (row) => {
+  return row;
+};
+
 const deleteID = (id, req, res) => {
   console.log(`Model: ${req.body.model}`);
   db.run("DELETE FROM phones WHERE id = $id", { $id: id });
@@ -74,8 +78,18 @@ app.get("/phone-list", function (req, res) {
   });
 });
 
+app.get("/:id/phone-list", (req, res) => {
+  db.get("SELECT * FROM phones WHERE id = ?", [req.params.id], (err, row) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return row
+      ? returnSpecificRow(res.json(row))
+      : return404Error(`Phone with ID ${req.params.id} not found`, res);
+  });
+});
+
 app.post("/new-entry/phone-list", function (req, res) {
-  // console.log(req.body);
   if (
     req.body.brand &&
     req.body.model &&
