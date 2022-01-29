@@ -137,8 +137,7 @@ app.delete("/delete/:id/phone-list", (req, res) => {
   );
 });
 
-app.post("/change/:id/phone-list", (req, res) => {
-  // console.log(req.body);
+app.patch("/change/:id/phone-list", (req, res) => {
   db.get(
     "SELECT * FROM phones WHERE id = $id",
     {
