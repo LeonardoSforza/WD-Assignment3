@@ -23,18 +23,12 @@ const returnSpecificRow = (row) => {
 };
 
 const deleteID = (id, req, res) => {
-  console.log(`Model: ${req.body.model}`);
   db.run("DELETE FROM phones WHERE id = $id", { $id: id });
   ans = [];
   ans.push({
     status: "200",
     action: "deleted",
     contentID: req.params.id,
-    brand: req.body.brand,
-    model: req.body.model,
-    os: req.body.os,
-    image: req.body.image,
-    screensize: req.body.screensize,
   });
   return res.json(ans);
 };
