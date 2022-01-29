@@ -18,15 +18,6 @@
   font-size: 14pt;
 }
 
-code {
-  display: block;
-  width: 90%;
-  padding: 20px;
-  margin: auto;
-  font-family: consolas, monospace;
-  background-color: var(--bg_blue);
-  font-size: 12pt;
-}
 main {
   padding: 10px;
   margin-left: 350px;
@@ -40,6 +31,27 @@ p {
   margin-left: 20px;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  page-break-after: always;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: min(1.5rem, 3vw);
+}
+
+th {
+  text-align: left;
+  background-color: rgb(35, 56, 56);
+  color: white;
+  font-size: min(1.5rem, 3vw);
+  font-weight: 400;
+}
+
 header {
   border-left: solid 25px;
   border-bottom: solid;
@@ -50,11 +62,11 @@ header {
   font-size: 20pt;
 }
 
-#doc-title {
+/* #doc-title {
   display: block;
   border: none;
   margin-top: 15px;
-}
+} */
 
 h1 {
   font-size: 28px;
@@ -63,12 +75,12 @@ h1 {
   font-weight: 700;
 }
 
-ul li {
+/* ul li {
   margin-top: 0.7em;
   padding-left: 10px;
   list-style-type: square;
   margin-left: 40px;
-}
+} */
 
 #introduction {
   margin-top: 5px;
