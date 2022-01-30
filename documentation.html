@@ -38,14 +38,12 @@
             <tr>
               <td>/phone-list</td>
               <td>GET</td>
-              <!--Should we also get according to 
-                brand or ID for assignment 4?-->
               <td>Retrieve/Read</td>
               <td>Obtain information about a resource</td>
             </tr>
             <tr>
               <td>/change/:id/phone-list</td>
-              <td>PUT</td>
+              <td>PATCH</td>
               <td>Update</td>
               <td>Update information about a resource</td>
             </tr>
@@ -74,7 +72,9 @@
             </tr>
             <tr>
               <td>204</td>
-              <td>No content</td>
+              <td>
+                Server has fulfilled the request, and does not return an entity-body
+              </td>
             </tr>
             <tr>
               <td>400</td>
@@ -83,10 +83,6 @@
             <tr>
               <td>404</td>
               <td>Not found</td>
-            </tr>
-            <tr>
-              <td>500</td>
-              <td>Server issue</td>
             </tr>
           </table>
       </section>
@@ -274,12 +270,35 @@
               <td>200 OK</td>
             </tr>
             <tr>
+              <td>/phone-list/1</td>
+              <td>GET</td>
+              <td>Get the phone in the list with ID 1</td>
+              <td>200 OK</td>
+            </tr>
+            <tr>
+              <td>/phone-list/999</td>
+              <td>GET</td>
+              <td>Get non-existing phone with ID 999</td>
+              <td>404 Not Found</td>
+            </tr>
+            <tr>
               <td>/phone-list</td>
               <td>POST</td>
               <td>Create a new phone in the list</td>
               <td>201 Created</td>
             </tr>
-            <!--Add more examples-->
+            <tr>
+              <td>/phone-list/100</td>
+              <td>PATCH</td>
+              <td>Update phone with ID 100</td>
+              <td>204 No Content</td>
+            </tr>
+            <tr>
+              <td>/phone-list/100</td>
+              <td>DELETE</td>
+              <td>Delete phone with ID 100</td>
+              <td>204 No Content</td>
+            </tr>
       </section>
     </main>
   </body>

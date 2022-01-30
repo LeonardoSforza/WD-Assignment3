@@ -62,25 +62,12 @@ header {
   font-size: 20pt;
 }
 
-/* #doc-title {
-  display: block;
-  border: none;
-  margin-top: 15px;
-} */
-
 h1 {
   font-size: 28px;
   margin: 10px;
   color: var(--title_blue);
   font-weight: 700;
 }
-
-/* ul li {
-  margin-top: 0.7em;
-  padding-left: 10px;
-  list-style-type: square;
-  margin-left: 40px;
-} */
 
 nav {
   overflow: auto;
