@@ -68,7 +68,16 @@ app.get("/phone-list", function (req, res) {
     if (error) {
       return error;
     }
-    return res.json(row);
+    if (row.length === 0) {
+      ans = [];
+      ans = {
+        status: "404",
+        messageError: "No items in database",
+      };
+      return res.json(ans);
+    } else {
+      return res.json(row);
+    }
   });
 });
 
@@ -129,20 +138,14 @@ app.post("/new-entry/phone-list", function (req, res) {
 });
 
 app.delete("/delete/:id/phone-list", (req, res) => {
-  db.get(
-    "SELECT * FROM phones WHERE id = $id",
-    {
-      $id: req.params.id,
-    },
-    (err, row) => {
-      if (err) {
-        return res.json(err.message);
-      }
-      return row
-        ? deleteID(req.params.id, req, res)
-        : return404Error(`Phone with ID ${req.params.id} not found`, res);
+  db.get("SELECT * FROM phones WHERE id = ?", [req.params.id], (err, row) => {
+    if (err) {
+      return res.json(err.message);
     }
-  );
+    return row
+      ? deleteID(req.params.id, req, res)
+      : return404Error(`Phone with ID ${req.params.id} not found`, res);
+  });
 });
 
 app.patch("/change/:id/phone-list", (req, res) => {
