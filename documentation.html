@@ -58,11 +58,6 @@
           </table>
       </section>
       <section class="main-section">
-        <header id="response">Receiving responses</header>
-          <!--the MIME format in which the resource is served 
-          in the HTTP response message.-->
-      </section>
-      <section class="main-section">
         <header id="response_codes">Response codes</header>
           <table>
             <tr>
@@ -92,6 +87,173 @@
             <tr>
               <td>500</td>
               <td>Server issue</td>
+            </tr>
+          </table>
+      </section>
+      <section class="main-section">
+        <header id="create">1. Create</header>
+          <table>
+            <tr>
+              <th>Requirements</th>
+              <th>Response - 201</th>
+              <th>Response - 400</th>
+            </tr>
+            <tr>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"brand"</span>: <span class="value">"yourBrand"</span>, <br></div>
+                <div class="flex"><span class="key">"model"</span>: <span class="value">"yourModel"</span>, <br></div>
+                <div class="flex"><span class="key">"os"</span>: <span class="value">"yourOS"</span>, <br></div>
+                <div class="flex"><span class="key">"image"</span>: <span class="value">"www.yourImage.com"</span>, <br></div>
+                <div class="flex"><span class="key">"screensize"</span>: <span class="value">"yourScreensize"</span> <br></div>
+                <span>}</span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"201"</span>, <br></div>
+                <div class="flex"><span class="key">"action"</span>: <span class="value">"Created new item"</span>, <br></div>
+                <div class="flex"><span class="key">"brand"</span>: <span class="value">"yourBrand"</span>, <br></div>
+                <div class="flex"><span class="key">"model"</span>: <span class="value">"yourModel"</span>, <br></div>
+                <div class="flex"><span class="key">"os"</span>: <span class="value">"yourOS"</span>, <br></div>
+                <div class="flex"><span class="key">"image"</span>: <span class="value">"www.yourImage.com"</span>, <br></div>
+                <div class="flex"><span class="key">"screensize"</span>: <span class="value">"yourScreensize"</span> <br></div>
+                <span>}</span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"400"</span>, <br></div>
+                <div class="flex"><span class="key">"messageError"</span>: <span class="value">"You are missing one or more requirements"</span> <br></div>
+                <span>}</span>
+              </td>
+            </tr>
+          </table>
+      </section>
+      <section class="main-section">
+        <header id="response">2. Retrieve All</header>
+          <table>
+            <tr>
+              <th>Requirements</th>
+              <th>Response - 200</th>
+              <th>Response - 204</th>
+            </tr>
+            <tr>
+              <td>
+                <p>No requirements</p>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"id"</span>: <span class="value">1</span>, <br></div>
+                <div class="flex"><span class="key">"brand"</span>: <span class="value">"Fairphone"</span>, <br></div>
+                <div class="flex"><span class="key">"model"</span>: <span class="value">"FP3"</span>, <br></div>
+                <div class="flex"><span class="key">"os"</span>: <span class="value">"Andriod"</span>, <br></div>
+                <div class="flex"><span class="key">"image"</span>: <span class="value">"www.exmaple.com"</span>, <br></div>
+                <div class="flex"><span class="key">"screensize"</span>: <span class="value">5.65</span> <br></div>
+                <span>}, ... </span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"204"</span>, <br></div>
+                <div class="flex"><span class="key">"messageError"</span>: <span class="value">"No items in database"</span> <br></div>
+                <span>}</span>
+              </td>
+            </tr>
+          </table>
+      </section>
+      <section class="main-section">
+        <header id="retrieve-specific">3. Retrieve Specific</header>
+          <table>
+            <tr>
+              <th>Requirements</th>
+              <th>Response - 200</th>
+              <th>Response - 404</th>
+            </tr>
+            <tr>
+              <td>
+                <p>ID → To select specific item in list you want to get</p>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"id"</span>: <span class="value">1</span>, <br></div>
+                <div class="flex"><span class="key">"brand"</span>: <span class="value">"Fairphone"</span>, <br></div>
+                <div class="flex"><span class="key">"model"</span>: <span class="value">"FP3"</span>, <br></div>
+                <div class="flex"><span class="key">"os"</span>: <span class="value">"Andriod"</span>, <br></div>
+                <div class="flex"><span class="key">"image"</span>: <span class="value">"www.exmaple.com"</span>, <br></div>
+                <div class="flex"><span class="key">"screensize"</span>: <span class="value">5.65</span> <br></div>
+                <span>}</span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"404"</span>, <br></div>
+                <div class="flex"><span class="key">"messageError"</span>: <span class="value">"Phone with ID 3 not found"</span> <br></div>
+                <span>}</span>
+              </td>
+            </tr>
+          </table>
+      </section>
+      <section class="main-section">
+        <header id="update">4. Update</header>
+          <table>
+            <tr>
+              <th>Requirements</th>
+              <th>Response - 200</th>
+              <th>Response - 404</th>
+            </tr>
+            <tr>
+              <td>
+                <p>1. ID → To select specific item in list you want to get</p>
+                <p>2. A JSON package with items you want to change</p>
+                <div class="JSON">
+                  <span>{</span>
+                  <div class="flex"><span class="key">"brand"</span>: <span class="value">"apple"</span>, <br></div>
+                  <div class="flex"><span class="key">"model"</span>: <span class="value">"iphone"</span>, <br></div>
+                  <div class="flex"><span class="key">"os"</span>: <span class="value">"andriod"</span> <br></div>
+                  <span>}</span>
+                </div>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                  <div class="flex"><span class="key">"status"</span>: <span class="value">"200"</span>, <br></div>
+                  <div class="flex"><span class="key">"action"</span>: <span class="value">"Updated, Here is the new content: "</span>, <br></div>
+                  <div class="flex"><span class="key">"contentID"</span>: <span class="value">"2"</span>, <br></div>
+                  <div class="flex"><span class="key">"brand"</span>: <span class="value">"apple"</span>, <br></div>
+                  <div class="flex"><span class="key">"model"</span>: <span class="value">"iphone"</span>, <br></div>
+                  <div class="flex"><span class="key">"os"</span>: <span class="value">"andriod"</span>, <br></div>
+                <span>}</span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"404"</span>, <br></div>
+                <div class="flex"><span class="key">"messageError"</span>: <span class="value">"Phone with ID 4 not found"</span> <br></div>
+                <span>}</span>
+              </td>
+            </tr>
+          </table>
+      </section>
+      <section class="main-section">
+        <header id="delete">5. Delete</header>
+          <table>
+            <tr>
+              <th>Requirements</th>
+              <th>Response - 200</th>
+              <th>Response - 404</th>
+            </tr>
+            <tr>
+              <td>
+                <p>1. ID → of item you want to delete</p>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                  <div class="flex"><span class="key">"status"</span>: <span class="value">"200"</span>, <br></div>
+                  <div class="flex"><span class="key">"action"</span>: <span class="value">"deleted "</span>, <br></div>
+                  <div class="flex"><span class="key">"contentID"</span>: <span class="value">"2"</span>, <br></div>
+                <span>}</span>
+              </td>
+              <td class="JSON">
+                <span>{</span>
+                <div class="flex"><span class="key">"status"</span>: <span class="value">"404"</span>, <br></div>
+                <div class="flex"><span class="key">"messageError"</span>: <span class="value">"Phone with ID 3 not found"</span> <br></div>
+                <span>}</span>
+              </td>
             </tr>
           </table>
       </section>
