@@ -71,7 +71,7 @@ app.get("/phone-list", function (req, res) {
     if (row.length === 0) {
       ans = [];
       ans = {
-        status: "404",
+        status: "204",
         messageError: "No items in database",
       };
       return res.json(ans);
@@ -115,7 +115,7 @@ app.post("/new-entry/phone-list", function (req, res) {
         } else {
           ans = [];
           ans.push({
-            status: "200",
+            status: "201",
             action: "Created new item",
             brand: req.body.brand,
             model: req.body.model,
