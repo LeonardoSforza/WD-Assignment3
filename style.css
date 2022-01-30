@@ -118,6 +118,22 @@ nav > ul {
   text-decoration: none;
 }
 
+.key {
+  color: #a50097;
+}
+
+.value {
+  color: #b1a500;
+}
+
+.flex {
+  display: flex;
+}
+
+.JSON {
+  padding-left: 1rem;
+}
+
 @media only screen and (max-width: 815px) {
   #navbar {
     position: relative;
