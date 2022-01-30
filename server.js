@@ -23,7 +23,7 @@ const returnSpecificRow = (row) => {
 };
 
 const deleteID = (id, req, res) => {
-  db.run("DELETE FROM phones WHERE id = $id", { $id: id });
+  db.run("DELETE FROM phones WHERE id = ?", [id]);
   ans = [];
   ans.push({
     status: "200",
@@ -101,14 +101,14 @@ app.post("/new-entry/phone-list", function (req, res) {
     req.body.screensize
   ) {
     db.run(
-      "INSERT INTO phones (brand, model, os, image, screensize) VALUES ($brand, $model, $os, $image, $screensize)",
-      {
-        $brand: req.body.brand,
-        $model: req.body.model,
-        $os: req.body.os,
-        $image: req.body.image,
-        $screensize: req.body.screensize,
-      },
+      "INSERT INTO phones (brand, model, os, image, screensize) VALUES (?, ?, ?, ?, ?)",
+      [
+        req.body.brand,
+        req.body.model,
+        req.body.os,
+        req.body.image,
+        req.body.screensize,
+      ],
       (err, row) => {
         if (err) {
           return res.json(err.message);
@@ -149,28 +149,22 @@ app.delete("/delete/:id/phone-list", (req, res) => {
 });
 
 app.patch("/change/:id/phone-list", (req, res) => {
-  db.get(
-    "SELECT * FROM phones WHERE id = $id",
-    {
-      $id: req.params.id,
-    },
-    (err, row) => {
-      if (err) {
-        return res.json(err.message);
-      }
-      return row
-        ? updateID(
-            req.params.id,
-            req.body.model,
-            req.body.brand,
-            req.body.os,
-            req.body.image,
-            req.body.screensize,
-            res
-          )
-        : return404Error(`Phone with ID ${req.params.id} not found`, res);
+  db.get("SELECT * FROM phones WHERE id = ?", [req.params.id], (err, row) => {
+    if (err) {
+      return res.json(err.message);
     }
-  );
+    return row
+      ? updateID(
+          req.params.id,
+          req.body.model,
+          req.body.brand,
+          req.body.os,
+          req.body.image,
+          req.body.screensize,
+          res
+        )
+      : return404Error(`Phone with ID ${req.params.id} not found`, res);
+  });
 });
 
 app.listen(3000);
